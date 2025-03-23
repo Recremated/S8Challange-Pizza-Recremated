@@ -3,11 +3,17 @@ import "../src/styles/Success.css";
 
 const OrderPizza = () => {
   return (
-    <div className="success-container">
-      <h2 className="success-title">Başarıyla giriş yaptınız!</h2>
-      <Link to="/" className="success-link">
-        Geri dön ORDERPIZZA
-      </Link>
+    <div className="flex min-h-screen">
+      <div className="flex justify-center h-[207px] w-screen bg-[#CE2829]">
+        <img
+          className="aspect-8/1 max-w-[362px]"
+          src="../images/iteration-1-images/logo.svg"
+        ></img>
+        {/* YARIN gride bak*/}
+        <p className=" absolute top-[150px] left-[10%] text-right text-[20px] sm:text-[16px] font-barlow text-white">
+          Anasayfa - <span className="font-bold">Sipariş Oluştur</span>
+        </p>
+      </div>
     </div>
   );
 };
