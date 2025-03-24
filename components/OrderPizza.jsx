@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const OrderPizza = () => {
   const sizeOptions = {
@@ -92,8 +93,8 @@ const OrderPizza = () => {
 
     if (trimmedName === "") {
       errorMessage = "İsim boş bırakılamaz.";
-    } else if (trimmedName.length < 2 || trimmedName.length > 50) {
-      errorMessage = "İsim 2-50 karakter arasında olmalıdır.";
+    } else if (trimmedName.length < 3 || trimmedName.length > 40) {
+      errorMessage = "İsim 3-40 karakter arasında olmalıdır.";
     } else if (!/^[a-zA-ZğüşöçİĞÜŞÖÇ\s]+$/.test(trimmedName)) {
       errorMessage = "İsim yalnızca harf ve boşluk içermelidir.";
     } else if (/\s{2,}/.test(trimmedName)) {
@@ -144,15 +145,23 @@ const OrderPizza = () => {
 
   const currentPrice = calculateTotalPrice();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log({
-      ...formData,
-      totalPrice: calculateTotalPrice(),
-      name: cleanName(formData.name),
-    });
-    navigate("/Success");
+    if (isValid) {
+      axios
+        .post("https://reqres.in/api/pizza", {
+          ...formData,
+          totalPrice: calculateTotalPrice(),
+          name: cleanName(formData.name),
+        })
+        .then(function (response) {
+          console.log(response.data);
+          navigate("/Success");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   useEffect(() => {
@@ -292,6 +301,7 @@ const OrderPizza = () => {
               onChange={handleChange}
               className="text-[20px] sm:text-[16px] text-[#5F5F5F] p-2 border border-gray-300 rounded w-full mt-4"
               placeholder="Adınızı girin"
+              autoComplete="name"
             />
             {errors.name && (
               <span className="text-[#D80027]">{errors.name}</span>
@@ -346,6 +356,7 @@ const OrderPizza = () => {
                   type="button"
                   className="px-5 py-4 bg-[#FDC913] text-black font-bold  hover:bg-red-600 transition duration-200"
                   onClick={() => handleAmountChange("decrease")}
+                  id="decrease"
                 >
                   -
                 </button>
@@ -358,6 +369,7 @@ const OrderPizza = () => {
                   type="button"
                   className="px-5 py-4 bg-[#FDC913] text-black font-bold hover:bg-red-600 transition duration-200"
                   onClick={() => handleAmountChange("increase")}
+                  id="increase"
                 >
                   +
                 </button>

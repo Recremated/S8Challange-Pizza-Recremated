@@ -1,6 +1,5 @@
 describe("Home Page", () => {
   beforeEach(() => {
-    // Visit the order pizza page (assuming it's running on localhost:3000)
     cy.visit("http://localhost:5173/");
   });
 
@@ -18,7 +17,6 @@ describe("Home Page", () => {
 
 describe("Order Page ", () => {
   beforeEach(() => {
-    // Visit the order pizza page (assuming it's running on localhost:3000)
     cy.visit("http://localhost:5173/OrderPizza");
   });
 
@@ -39,25 +37,13 @@ describe("Order Page ", () => {
 
     cy.contains("SİPARİŞ VER").should("exist");
   });
-  /*it("Belirli sayıda checkbox işaretleme", () => {
-    const checkCount = 3; // Kaç tane checkbox işaretlenecek
 
-    cy.get('input[type="checkbox"]').then((checkboxes) => {
-      const checkboxArray = [...checkboxes];
-      Cypress._.shuffle(checkboxArray) // Checkboxları karıştır
-        .slice(0, checkCount) // Belirtilen sayıda checkbox seç
-        .forEach((checkbox) => {
-          cy.wrap(checkbox).check(); // Seçilen checkboxları işaretle
-        });
-    });
-  }); */
-
-  describe("Form Submit Button Test", () => {
+  describe("Form Elementleri", () => {
     beforeEach(() => {
-      cy.visit("http://localhost:5173/OrderPizza"); // Test edilecek form sayfasını ziyaret et
+      cy.visit("http://localhost:5173/OrderPizza");
     });
 
-    it("Submit butonu, tüm olasılıklarda doğru şekilde çalışmalı", () => {
+    it("Submit butonu tüm olasılıklarda doğru şekilde disable oluyor mu ?", () => {
       const checkSubmitDisabled = () => {
         cy.get('button[type="submit"]').should("be.disabled");
       };
@@ -65,36 +51,63 @@ describe("Order Page ", () => {
         cy.get('button[type="submit"]').should("not.be.disabled");
       };
 
-      // Başlangıçta buton disabled olmalı
       checkSubmitDisabled();
 
-      // Tüm kombinasyonları test et
       const cases = [
-        { boyut: "", hamur: "", isim: "" },
-        { boyut: "", hamur: "", isim: "Ahmet" },
-        { boyut: "", hamur: "normal", isim: "" },
-        { boyut: "", hamur: "normal", isim: "Ahmet" },
-        { boyut: "orta", hamur: "", isim: "" },
-        { boyut: "buyuk", hamur: "", isim: "Ahmet" },
-        { boyut: "kucuk", hamur: "normal", isim: "" },
-        { boyut: "kucuk", hamur: "normal", isim: "ab" },
-        { boyut: "buyuk", hamur: "normal", isim: "a".repeat(41) },
-        { boyut: "orta", hamur: "normal", isim: "Test123" },
+        { boyut: "#ingredient-Misir", hamur: "", isim: " " },
+        { boyut: "#ingredient-Misir", hamur: "", isim: "Ahmet" },
+        { boyut: "#ingredient-Misir", hamur: "ince", isim: " " },
+        { boyut: "#ingredient-Misir", hamur: "incecik", isim: "Ahmet" },
+        { boyut: "#orta", hamur: "", isim: " " },
+        { boyut: "#buyuk", hamur: "", isim: "Ahmet" },
+        { boyut: "#kucuk", hamur: "klasik", isim: " " },
+        { boyut: "#kucuk", hamur: "ince", isim: "ab" },
+        { boyut: "#buyuk", hamur: "incecik", isim: "a".repeat(41) },
+        { boyut: "#orta", hamur: "klasik", isim: "Test123" },
       ];
 
       cases.forEach(({ boyut, hamur, isim }) => {
-        cy.get("#hamur-sec").select(boyut);
-        cy.get("#hamur-sec").select(hamur);
-        cy.get("#isim").clear().type(isim);
-
+        cy.get(boyut).check();
+        cy.get("#thickness").select(hamur);
+        cy.get('input[name="name"]').clear().type(isim);
         checkSubmitDisabled();
       });
 
-      // Geçerli kombinasyonu test et
-      cy.get("#boyut-sec").check();
-      cy.get("#hamur-sec").select("normal");
-      cy.get("#isim").clear().type("Ahmet");
+      cy.get("#kucuk").check();
+      cy.get("#thickness").select("klasik");
+      cy.get('input[name="name"]').clear().type("Ahmet");
       checkSubmitEnabled();
+    });
+    it("10 taneden fazla seçince alert veriyor mu?", () => {
+      const checkCount = 11;
+      cy.get('input[type="checkbox"]').then((checkboxes) => {
+        const checkboxArray = [...checkboxes];
+        Cypress._.shuffle(checkboxArray)
+          .slice(0, checkCount)
+          .forEach((checkbox) => {
+            cy.wrap(checkbox).check();
+          });
+      });
+      cy.on("window:alert", (alertText) => {
+        expect(alertText).to.contain("En fazla 10 malzeme seçebilirsiniz!");
+      });
+    });
+    it("Ek malzeme sayisina ve adete gore fiyati dogru hesapliyor mu ?", () => {
+      const ingredient = Math.floor(Math.random() * 10);
+      const amount = Math.floor(Math.random() * 4) + 1;
+      const checkCount = ingredient; // Kaç tane checkbox işaretlenecek
+      cy.get('input[type="checkbox"]').then((checkboxes) => {
+        const checkboxArray = [...checkboxes];
+        Cypress._.shuffle(checkboxArray) // Checkboxları karıştır
+          .slice(0, checkCount) // Belirtilen sayıda checkbox seç
+          .forEach((checkbox) => {
+            cy.wrap(checkbox).check(); // Seçilen checkboxları işaretle
+          });
+      });
+      for (let i = 1; i < amount; i++) {
+        cy.get("#increase").click();
+      }
+      cy.contains(`${(ingredient * 5 + 85.5) * amount}`).should("exist");
     });
   });
 });
