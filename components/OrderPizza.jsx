@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const OrderPizza = () => {
@@ -29,6 +29,13 @@ const OrderPizza = () => {
     amount: 1,
   });
 
+  const [errors, setErrors] = useState({
+    size: "Pizza boyutu seçilmelidir.",
+    thickness: "Hamur kalinliği seçilmelidir.",
+  });
+
+  const [isValid, setIsValid] = useState(false);
+
   const calculateTotalPrice = () => {
     const ingredientsPrice = formData.ingredients.length * 5;
     const totalPrice =
@@ -38,10 +45,37 @@ const OrderPizza = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+
+    if (name === "size") {
+      if (value === "") {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          size: "Pizza boyutu seçilmelidir.",
+        }));
+      } else {
+        setErrors((prevErrors) => {
+          const { size, ...rest } = prevErrors;
+          return rest;
+        });
+      }
+    } else if (name === "thickness") {
+      if (value === "") {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          thickness: "Hamur kalinliği seçilmelidir.",
+        }));
+      } else {
+        setErrors((prevErrors) => {
+          const { thickness, ...rest } = prevErrors;
+          return rest;
+        });
+      }
+    }
   };
 
   const handleIngredientChange = (ingredient) => {
@@ -50,7 +84,7 @@ const OrderPizza = () => {
         ? prevData.ingredients.filter((item) => item !== ingredient)
         : [...prevData.ingredients, ingredient];
       if (newIngredients.length > 10) {
-        alert("En Fazla 10 malzeme seçebilirsiniz");
+        alert("En fazla 10 malzeme seçebilirsiniz!");
         return prevData;
       }
       return { ...prevData, ingredients: newIngredients };
@@ -69,16 +103,21 @@ const OrderPizza = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.size || !formData.thickness) {
-      alert("Lütfen pizza boyutu ve hamur kalınlığını seçin!");
-      return;
-    }
+
     console.log({
       ...formData,
       totalPrice: calculateTotalPrice(),
     });
     navigate("/Success");
   };
+
+  useEffect(() => {
+    const isFormValid =
+      formData.size !== "" &&
+      formData.thickness !== "" &&
+      Object.keys(errors).length === 0;
+    setIsValid(isFormValid);
+  }, [formData, errors]);
 
   const currentPrice = calculateTotalPrice();
 
@@ -95,27 +134,25 @@ const OrderPizza = () => {
 
         <div className="w-full flex justify-center">
           <div className="max-w-md sm:max-w-md md:max-w-xl lg:max-w-xl w-full mx-[60px] pb-4">
-            <div className="text-sm flex items-center">
-              <Link to="/" className="mr-1">
-                Anasayfa
-              </Link>
-              <span className="mx-1">/</span>
-              <span className="font-semibold">Sipariş Oluştur</span>
+            <div className="text-[20px] sm:text-[16px] font-barlow flex items-center">
+              <Link to="/">Anasayfa</Link>
+              <span className="mx-1">-</span>
+              <span className="font-bold">Sipariş Oluştur</span>
             </div>
           </div>
         </div>
       </header>
       <div className="flex flex-col max-w-md sm:max-w-md md:max-w-xl lg:max-w-xl mx-[60px] gap-4 mt-5">
-        <h2 className="text-xl font-barlow font-semibold">
+        <h2 className="text-[27px] sm:text-[22px] font-barlow font-semibold">
           Position Absolute Acı Pizza
         </h2>
         <div className="flex items-center font-barlow justify-between">
-          <span className="text-2xl font-bold">
+          <span className="text-[28px] font-bold">
             {formData.basePrice.toFixed(2)}₺
           </span>
           <span className="text-gray-500">4.9 ⭐ (200)</span>
         </div>
-        <p className="text-[#5F5F5F] font-barlow mt-4">
+        <p className="text-[#5F5F5F] font-barlow mt-4 text-[20px] sm:text-[16px] ">
           Frontent Dev olarak hala position:absolute kullanıyorsan bu çok acı
           pizza tam sana göre. Pizza, domates, peynir ve genellikle çeşitli
           diğer malzemelerle kaplanmış, daha sonra geleneksel olarak odun
@@ -123,48 +160,70 @@ const OrderPizza = () => {
           düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli
           lezzetli bir yemektir. . Küçük bir pizzaya bazen pizzetta denir.
         </p>
-        <form onSubmit={handleSubmit}>
+        <form className="font-barlow" onSubmit={handleSubmit}>
           <div className="flex my-10">
-            <div className="flex flex-col w-1/2 gap-3 font-barlow">
-              <label>Boyut Seç</label>
-              <label>
+            <div className="flex flex-col w-1/2 gap-3">
+              <p
+                className="text-[22px] sm:text-[20px] font-semibold"
+                htmlFor="size"
+              >
+                Boyut Seç
+                {errors.size && <span className="text-[#D80027]"> *</span>}
+              </p>
+              <label htmlFor="kucuk">
                 <input
+                  id="kucuk"
                   type="radio"
                   name="size"
                   value="kucuk"
                   checked={formData.size === "kucuk"}
                   onChange={handleChange}
                 />
-                <span className="ml-3">Küçük</span>
+                <span className="ml-3 text-[20px] sm:text-[16px] text-[#5F5F5F]">
+                  Küçük
+                </span>
               </label>
-              <label>
+              <label htmlFor="orta">
                 <input
+                  id="orta"
                   type="radio"
                   name="size"
                   value="orta"
                   checked={formData.size === "orta"}
                   onChange={handleChange}
                 />
-                <span className="ml-3">Orta</span>
+                <span className="ml-3 text-[20px] sm:text-[16px] text-[#5F5F5F]">
+                  Orta
+                </span>
               </label>
-              <label>
+              <label htmlFor="buyuk">
                 <input
+                  id="buyuk"
                   type="radio"
                   name="size"
                   value="buyuk"
                   checked={formData.size === "buyuk"}
                   onChange={handleChange}
                 />
-                <span className="ml-3">Büyük</span>
+                <span className="ml-3 text-[20px] sm:text-[16px] text-[#5F5F5F]">
+                  Büyük
+                </span>
               </label>
             </div>
             <div className="flex flex-col w-1/2 gap-3">
-              <label htmlFor="thickness">Hamur Seç</label>
+              <label
+                className="text-[22px] sm:text-[20px] font-semibold"
+                htmlFor="thickness"
+              >
+                Hamur Seç
+                {errors.thickness && <span className="text-[#CE2829]"> *</span>}
+              </label>
               <select
                 id="thickness"
                 name="thickness"
                 value={formData.thickness}
                 onChange={handleChange}
+                className="text-[20px] sm:text-[16px] text-[#5F5F5F] "
               >
                 <option value="">Hamur kalınlığı</option>
                 <option value="ince">İnce</option>
@@ -175,59 +234,77 @@ const OrderPizza = () => {
           </div>
 
           <div className="mb-10">
-            <label>Ek Malzemeler</label>
-            <p className="my-4">En Fazla 10 malzeme seçebilirsiniz. 5₺</p>
+            <p className="font-semibold text-[22px] sm:text-[20px]">
+              Ek Malzemeler
+            </p>
+            <p className="my-4 text-[20px] sm:text-[16px] text-[#5F5F5F]">
+              En Fazla 10 malzeme seçebilirsiniz. 5₺
+            </p>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
               {selection.map((ingredient) => (
                 <label key={ingredient}>
                   <input
                     type="checkbox"
+                    id={`ingredient-${ingredient}`}
+                    name="ingredients"
                     checked={formData.ingredients.includes(ingredient)}
                     onChange={() => handleIngredientChange(ingredient)}
                   />
-                  <span className="ml-3">{ingredient}</span>
+                  <span className="ml-3 font-bold text-[20px] sm:text-[16px] text-[#5F5F5F]">
+                    {ingredient}
+                  </span>
                 </label>
               ))}
             </div>
           </div>
 
           <div className="pb-10 border-b">
-            <label>Sipariş Notu</label>
+            <label
+              htmlFor="note"
+              className="font-semibold text-[22px] sm:text-[20px]"
+            >
+              Sipariş Notu
+            </label>
             <textarea
               rows="1"
-              className="w-full p-4 mt-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-4 mt-4 border  border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Siparişine eklemek istediğin bir not var mı?"
               value={formData.note}
               onChange={handleChange}
               name="note"
+              id="note"
             ></textarea>
           </div>
 
           <div className="mt-4 py-4 flex flex-col items-center gap-5">
             <div className="flex flex-col justify-center w-full p-4 border rounded-[6px] gap-3">
               <div className="flex justify-between">
-                <p>Sipariş Toplamı</p>
+                <p className="text-[20px] font-semibold">Sipariş Toplamı</p>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between text-[18px] font-semibold">
                 <p>Seçimler</p>
                 <span className="ml-auto">
                   {formData.ingredients.length * 5}₺
                 </span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between text-[18px] text-[#CE2829] font-semibold">
                 <p>Toplam</p>
                 <span className="ml-auto">{currentPrice.toFixed(2)}₺</span>
               </div>
             </div>
 
             <div className="flex w-full justify-center gap-5">
-              <button type="submit" className="bg-[#FDC913] rounded px-4">
+              <button
+                type="submit"
+                className="bg-[#FDC913] rounded px-4 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                disabled={!isValid}
+              >
                 Siparişi Ver
               </button>
-              <div className="flex border-1 rounded items-center">
+              <div className="flex border rounded-[6px] items-center overflow-hidden">
                 <button
                   type="button"
-                  className="px-4 py-3 bg-[#FDC913] text-black font-bold rounded hover:bg-red-600 transition duration-200"
+                  className="px-4 py-3 bg-[#FDC913] text-black font-bold  hover:bg-red-600 transition duration-200"
                   onClick={() => handleAmountChange("decrease")}
                 >
                   -
@@ -239,7 +316,7 @@ const OrderPizza = () => {
 
                 <button
                   type="button"
-                  className="px-4 py-3 bg-[#FDC913] text-black font-bold rounded hover:bg-red-600 transition duration-200"
+                  className="px-4 py-3 bg-[#FDC913] text-black font-bold hover:bg-red-600 transition duration-200"
                   onClick={() => handleAmountChange("increase")}
                 >
                   +
