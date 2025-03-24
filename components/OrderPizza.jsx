@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const OrderPizza = () => {
   const selection = [
@@ -18,14 +18,23 @@ const OrderPizza = () => {
     "Kabak",
   ];
 
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     size: "",
     thickness: "",
     ingredients: [],
     note: "",
-    price: 85.5,
+    basePrice: 85.5,
     amount: 1,
   });
+
+  const calculateTotalPrice = () => {
+    const ingredientsPrice = formData.ingredients.length * 5;
+    const totalPrice =
+      (formData.basePrice + ingredientsPrice) * formData.amount;
+    return totalPrice;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,10 +46,14 @@ const OrderPizza = () => {
 
   const handleIngredientChange = (ingredient) => {
     setFormData((prevData) => {
-      const ingredients = prevData.ingredients.includes(ingredient)
+      const newIngredients = prevData.ingredients.includes(ingredient)
         ? prevData.ingredients.filter((item) => item !== ingredient)
         : [...prevData.ingredients, ingredient];
-      return { ...prevData, ingredients };
+      if (newIngredients.length > 10) {
+        alert("En Fazla 10 malzeme seçebilirsiniz");
+        return prevData;
+      }
+      return { ...prevData, ingredients: newIngredients };
     });
   };
 
@@ -60,8 +73,14 @@ const OrderPizza = () => {
       alert("Lütfen pizza boyutu ve hamur kalınlığını seçin!");
       return;
     }
-    console.log(formData);
+    console.log({
+      ...formData,
+      totalPrice: calculateTotalPrice(),
+    });
+    navigate("/Success");
   };
+
+  const currentPrice = calculateTotalPrice();
 
   return (
     <div className="bg-white min-h-screen flex flex-col items-center w-full">
@@ -86,16 +105,13 @@ const OrderPizza = () => {
           </div>
         </div>
       </header>
-      <div
-        className="flex flex-col max-w-md sm:max-w-md md:max-w-xl lg:max-w-xl mx-[60px] gap-4 mt-5
-"
-      >
+      <div className="flex flex-col max-w-md sm:max-w-md md:max-w-xl lg:max-w-xl mx-[60px] gap-4 mt-5">
         <h2 className="text-xl font-barlow font-semibold">
           Position Absolute Acı Pizza
         </h2>
         <div className="flex items-center font-barlow justify-between">
           <span className="text-2xl font-bold">
-            {formData.price.toFixed(2)}₺
+            {formData.basePrice.toFixed(2)}₺
           </span>
           <span className="text-gray-500">4.9 ⭐ (200)</span>
         </div>
@@ -200,11 +216,7 @@ const OrderPizza = () => {
               </div>
               <div className="flex justify-between">
                 <p>Toplam</p>
-                <span className="ml-auto">
-                  {(formData.price + formData.ingredients.length * 5) *
-                    formData.amount}
-                  ₺
-                </span>
+                <span className="ml-auto">{currentPrice.toFixed(2)}₺</span>
               </div>
             </div>
 
