@@ -2,6 +2,26 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const OrderPizza = () => {
+  //BURAYI DUZELT
+  const sizeOptions = {
+    label: "Boyut Seç",
+    items: [
+      { value: "kucuk", label: "Küçük" },
+      { value: "orta", label: "Orta" },
+      { value: "buyuk", label: "Büyük" },
+    ],
+  };
+  //BURAYI DUZELT
+  const thicknessOptions = {
+    label: "Hamur Seç",
+    placeholder: "Hamur kalınlığı",
+    items: [
+      { value: "ince", label: "İnce" },
+      { value: "incecik", label: "İncecik" },
+      { value: "klasik", label: "Klasik" },
+    ],
+  };
+
   const selection = [
     "Pepperoni",
     "Sosis",
@@ -27,14 +47,27 @@ const OrderPizza = () => {
     note: "",
     basePrice: 85.5,
     amount: 1,
+    name: "",
   });
 
   const [errors, setErrors] = useState({
     size: "Pizza boyutu seçilmelidir.",
     thickness: "Hamur kalinliği seçilmelidir.",
+    name: "Isim alani bos birakilamaz",
   });
 
   const [isValid, setIsValid] = useState(false);
+
+  const validateField = (name, value) => {
+    setErrors((prevErrors) => {
+      if (value === "") {
+        return { ...prevErrors, [name]: `${name} alanı boş bırakılamaz.` };
+      } else {
+        const { [name]: _, ...rest } = prevErrors;
+        return rest;
+      }
+    });
+  };
 
   const calculateTotalPrice = () => {
     const ingredientsPrice = formData.ingredients.length * 5;
@@ -51,31 +84,37 @@ const OrderPizza = () => {
       [name]: value,
     }));
 
-    if (name === "size") {
-      if (value === "") {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          size: "Pizza boyutu seçilmelidir.",
-        }));
-      } else {
-        setErrors((prevErrors) => {
-          const { size, ...rest } = prevErrors;
-          return rest;
-        });
-      }
-    } else if (name === "thickness") {
-      if (value === "") {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          thickness: "Hamur kalinliği seçilmelidir.",
-        }));
-      } else {
-        setErrors((prevErrors) => {
-          const { thickness, ...rest } = prevErrors;
-          return rest;
-        });
-      }
+    if (name === "name") {
+      validateName(value);
+    } else {
+      validateField(name, value);
     }
+  };
+
+  const validateName = (name) => {
+    let trimmedName = name.trim();
+    let errorMessage = "";
+
+    if (trimmedName === "") {
+      errorMessage = "İsim boş bırakılamaz.";
+    } else if (trimmedName.length < 2 || trimmedName.length > 50) {
+      errorMessage = "İsim 2-50 karakter arasında olmalıdır.";
+    } else if (!/^[a-zA-ZğüşöçİĞÜŞÖÇ\s]+$/.test(trimmedName)) {
+      errorMessage = "İsim yalnızca harf ve boşluk içermelidir.";
+    } else if (/\s{2,}/.test(trimmedName)) {
+      errorMessage = "İsimde ardışık birden fazla boşluk olamaz.";
+    }
+
+    if (errorMessage) {
+      setErrors((prev) => ({ ...prev, name: errorMessage }));
+    } else {
+      setErrors((prev) => {
+        const { name, ...rest } = prev;
+        return rest;
+      });
+    }
+
+    return trimmedName;
   };
 
   const handleIngredientChange = (ingredient) => {
@@ -101,25 +140,34 @@ const OrderPizza = () => {
     }));
   };
 
+  const cleanName = (name) => {
+    return name
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
+
+  const currentPrice = calculateTotalPrice();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log({
       ...formData,
       totalPrice: calculateTotalPrice(),
+      name: cleanName(formData.name),
     });
     navigate("/Success");
   };
 
   useEffect(() => {
     const isFormValid =
+      formData.name !== "" &&
       formData.size !== "" &&
       formData.thickness !== "" &&
       Object.keys(errors).length === 0;
     setIsValid(isFormValid);
   }, [formData, errors]);
-
-  const currentPrice = calculateTotalPrice();
 
   return (
     <div className="bg-white min-h-screen flex flex-col items-center w-full">
@@ -163,59 +211,33 @@ const OrderPizza = () => {
         <form className="font-barlow" onSubmit={handleSubmit}>
           <div className="flex my-10">
             <div className="flex flex-col w-1/2 gap-3">
-              <p
-                className="text-[22px] sm:text-[20px] font-semibold"
-                htmlFor="size"
-              >
-                Boyut Seç
+              <p className="text-[22px] sm:text-[20px] font-semibold">
+                {sizeOptions.label}
                 {errors.size && <span className="text-[#D80027]"> *</span>}
               </p>
-              <label htmlFor="kucuk">
-                <input
-                  id="kucuk"
-                  type="radio"
-                  name="size"
-                  value="kucuk"
-                  checked={formData.size === "kucuk"}
-                  onChange={handleChange}
-                />
-                <span className="ml-3 text-[20px] sm:text-[16px] text-[#5F5F5F]">
-                  Küçük
-                </span>
-              </label>
-              <label htmlFor="orta">
-                <input
-                  id="orta"
-                  type="radio"
-                  name="size"
-                  value="orta"
-                  checked={formData.size === "orta"}
-                  onChange={handleChange}
-                />
-                <span className="ml-3 text-[20px] sm:text-[16px] text-[#5F5F5F]">
-                  Orta
-                </span>
-              </label>
-              <label htmlFor="buyuk">
-                <input
-                  id="buyuk"
-                  type="radio"
-                  name="size"
-                  value="buyuk"
-                  checked={formData.size === "buyuk"}
-                  onChange={handleChange}
-                />
-                <span className="ml-3 text-[20px] sm:text-[16px] text-[#5F5F5F]">
-                  Büyük
-                </span>
-              </label>
+              {sizeOptions.items.map((option) => (
+                <label htmlFor={option.value} key={option.value}>
+                  <input
+                    id={option.value}
+                    type="radio"
+                    name="size"
+                    value={option.value}
+                    checked={formData.size === option.value}
+                    onChange={handleChange}
+                  />
+                  <span className="ml-3 text-[20px] sm:text-[16px] text-[#5F5F5F]">
+                    {option.label}
+                  </span>
+                </label>
+              ))}
             </div>
+
             <div className="flex flex-col w-1/2 gap-3">
               <label
                 className="text-[22px] sm:text-[20px] font-semibold"
                 htmlFor="thickness"
               >
-                Hamur Seç
+                {thicknessOptions.label}
                 {errors.thickness && <span className="text-[#CE2829]"> *</span>}
               </label>
               <select
@@ -223,12 +245,14 @@ const OrderPizza = () => {
                 name="thickness"
                 value={formData.thickness}
                 onChange={handleChange}
-                className="text-[20px] sm:text-[16px] text-[#5F5F5F] "
+                className="text-[20px] sm:text-[16px] text-[#5F5F5F] border"
               >
-                <option value="">Hamur kalınlığı</option>
-                <option value="ince">İnce</option>
-                <option value="incecik">İncecik</option>
-                <option value="klasik">Klasik</option>
+                <option value="">{thicknessOptions.placeholder}</option>
+                {thicknessOptions.items.map((option) => (
+                  <option value={option.value} key={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -257,8 +281,29 @@ const OrderPizza = () => {
               ))}
             </div>
           </div>
+          <div className="pb-10 flex-row">
+            <label
+              className="text-[22px] sm:text-[20px] font-semibold"
+              htmlFor="name"
+            >
+              İsim
+              {errors.name && <span className="text-[#D80027]"> *</span>}
+            </label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="text-[20px] sm:text-[16px] text-[#5F5F5F] p-2 border border-gray-300 rounded w-full mt-4"
+              placeholder="Adınızı girin"
+            />
+            {errors.name && (
+              <span className="text-[#D80027]">{errors.name}</span>
+            )}
+          </div>
 
-          <div className="pb-10 border-b">
+          <div className="pb-10 border-b border-[#5F5F5F]">
             <label
               htmlFor="note"
               className="font-semibold text-[22px] sm:text-[20px]"
@@ -267,7 +312,7 @@ const OrderPizza = () => {
             </label>
             <textarea
               rows="1"
-              className="w-full p-4 mt-4 border  border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-4 mt-4 border  border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FDC913]"
               placeholder="Siparişine eklemek istediğin bir not var mı?"
               value={formData.note}
               onChange={handleChange}
@@ -277,7 +322,7 @@ const OrderPizza = () => {
           </div>
 
           <div className="mt-4 py-4 flex flex-col items-center gap-5">
-            <div className="flex flex-col justify-center w-full p-4 border rounded-[6px] gap-3">
+            <div className="flex flex-col justify-center w-full p-4 border border-[#5F5F5F] rounded-[6px] gap-3">
               <div className="flex justify-between">
                 <p className="text-[20px] font-semibold">Sipariş Toplamı</p>
               </div>
@@ -296,27 +341,27 @@ const OrderPizza = () => {
             <div className="flex w-full justify-center gap-5">
               <button
                 type="submit"
-                className="bg-[#FDC913] rounded px-4 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="bg-[#FDC913] rounded px-6 hover:bg-[#CE2829] disabled:bg-gray-400 disabled:cursor-not-allowed text-[18px] font-semibold"
                 disabled={!isValid}
               >
-                Siparişi Ver
+                SİPARİŞ VER
               </button>
               <div className="flex border rounded-[6px] items-center overflow-hidden">
                 <button
                   type="button"
-                  className="px-4 py-3 bg-[#FDC913] text-black font-bold  hover:bg-red-600 transition duration-200"
+                  className="px-5 py-4 bg-[#FDC913] text-black font-bold  hover:bg-red-600 transition duration-200"
                   onClick={() => handleAmountChange("decrease")}
                 >
                   -
                 </button>
 
-                <div className="text-[22px] font-barlow font-semibold mx-4">
+                <div className="text-[22px] font-barlow font-semibold mx-7">
                   {formData.amount}
                 </div>
 
                 <button
                   type="button"
-                  className="px-4 py-3 bg-[#FDC913] text-black font-bold hover:bg-red-600 transition duration-200"
+                  className="px-5 py-4 bg-[#FDC913] text-black font-bold hover:bg-red-600 transition duration-200"
                   onClick={() => handleAmountChange("increase")}
                 >
                   +
