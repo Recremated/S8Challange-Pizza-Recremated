@@ -2,19 +2,14 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const OrderPizza = () => {
-  //BURAYI DUZELT
   const sizeOptions = {
-    label: "Boyut Seç",
     items: [
       { value: "kucuk", label: "Küçük" },
       { value: "orta", label: "Orta" },
       { value: "buyuk", label: "Büyük" },
     ],
   };
-  //BURAYI DUZELT
   const thicknessOptions = {
-    label: "Hamur Seç",
-    placeholder: "Hamur kalınlığı",
     items: [
       { value: "ince", label: "İnce" },
       { value: "incecik", label: "İncecik" },
@@ -212,7 +207,7 @@ const OrderPizza = () => {
           <div className="flex my-10">
             <div className="flex flex-col w-1/2 gap-3">
               <p className="text-[22px] sm:text-[20px] font-semibold">
-                {sizeOptions.label}
+                Boyut Seç
                 {errors.size && <span className="text-[#D80027]"> *</span>}
               </p>
               {sizeOptions.items.map((option) => (
@@ -237,7 +232,7 @@ const OrderPizza = () => {
                 className="text-[22px] sm:text-[20px] font-semibold"
                 htmlFor="thickness"
               >
-                {thicknessOptions.label}
+                Hamur Seç
                 {errors.thickness && <span className="text-[#CE2829]"> *</span>}
               </label>
               <select
@@ -247,7 +242,7 @@ const OrderPizza = () => {
                 onChange={handleChange}
                 className="text-[20px] sm:text-[16px] text-[#5F5F5F] border"
               >
-                <option value="">{thicknessOptions.placeholder}</option>
+                <option value="">Hamur Kalınlığı</option>
                 {thicknessOptions.items.map((option) => (
                   <option value={option.value} key={option.value}>
                     {option.label}
