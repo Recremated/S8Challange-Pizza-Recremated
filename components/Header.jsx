@@ -19,7 +19,9 @@ const Header = () => {
           <div className="text-[20px] sm:text-[16px] font-barlow flex items-center">
             <Link to="/">Anasayfa</Link>
             <span className="mx-1">-</span>
-            <span className="font-bold">{pathName || "Anasayfa"}</span>
+            <span className="font-bold">
+              {pathName === "Order" ? "Sipariş Oluştur" : pathName}
+            </span>
           </div>
         </div>
       </div>

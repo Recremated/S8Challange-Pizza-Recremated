@@ -11,13 +11,13 @@ describe("Home Page", () => {
   it("Buton dogru calisiyor mu ?", () => {
     cy.contains("ACIKTIM").should("exist").click();
 
-    cy.url().should("include", "/OrderPizza");
+    cy.url().should("include", "/Order");
   });
 });
 
 describe("Order Page ", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:5173/OrderPizza");
+    cy.visit("http://localhost:5173/Order");
   });
 
   it("Sayfa icerigi dogru yuklendi mi ?", () => {
@@ -40,7 +40,7 @@ describe("Order Page ", () => {
 
   describe("Form Elementleri", () => {
     beforeEach(() => {
-      cy.visit("http://localhost:5173/OrderPizza");
+      cy.visit("http://localhost:5173/Order");
     });
 
     it("Submit butonu tüm olasılıklarda doğru şekilde disable oluyor mu ?", () => {
@@ -54,26 +54,32 @@ describe("Order Page ", () => {
       checkSubmitDisabled();
 
       const cases = [
-        { boyut: "#ingredient-Misir", hamur: "", isim: " " },
-        { boyut: "#ingredient-Misir", hamur: "", isim: "Ahmet" },
-        { boyut: "#ingredient-Misir", hamur: "ince", isim: " " },
-        { boyut: "#ingredient-Misir", hamur: "incecik", isim: "Ahmet" },
-        { boyut: "#orta", hamur: "", isim: " " },
-        { boyut: "#buyuk", hamur: "", isim: "Ahmet" },
-        { boyut: "#kucuk", hamur: "klasik", isim: " " },
-        { boyut: "#kucuk", hamur: "ince", isim: "ab" },
-        { boyut: "#buyuk", hamur: "incecik", isim: "a".repeat(41) },
-        { boyut: "#orta", hamur: "klasik", isim: "Test123" },
+        { boyut: "", hamur: "", isim: " " },
+        { boyut: "", hamur: "", isim: "Ahmet" },
+        { boyut: "", hamur: "ince", isim: " " },
+        { boyut: "", hamur: "incecik", isim: "Ahmet" },
+        { boyut: "orta", hamur: "", isim: " " },
+        { boyut: "buyuk", hamur: "", isim: "Ahmet" },
+        { boyut: "kucuk", hamur: "klasik", isim: " " },
+        { boyut: "kucuk", hamur: "ince", isim: "ab" },
+        { boyut: "buyuk", hamur: "incecik", isim: "a".repeat(41) },
+        { boyut: "orta", hamur: "klasik", isim: "Test123" },
       ];
 
       cases.forEach(({ boyut, hamur, isim }) => {
-        cy.get(boyut).check();
-        cy.get("#thickness").select(hamur);
-        cy.get('input[name="name"]').clear().type(isim);
-        checkSubmitDisabled();
+        if (boyut !== "") {
+          cy.get(`label[for=${boyut}]`).click();
+          cy.get("#thickness").select(hamur);
+          cy.get('input[name="name"]').clear().type(isim);
+          checkSubmitDisabled();
+        } else {
+          cy.get("#thickness").select(hamur);
+          cy.get('input[name="name"]').clear().type(isim);
+          checkSubmitDisabled();
+        }
       });
 
-      cy.get("#kucuk").check();
+      cy.get("label[for='kucuk']").click();
       cy.get("#thickness").select("klasik");
       cy.get('input[name="name"]').clear().type("Ahmet");
       checkSubmitEnabled();

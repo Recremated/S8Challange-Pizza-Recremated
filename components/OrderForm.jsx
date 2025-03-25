@@ -1,5 +1,5 @@
 import React from "react";
-const PizzaOrderForm = ({
+const OrderForm = ({
   formData,
   handleChange,
   handleIngredientChange,
@@ -203,4 +203,4 @@ const PizzaOrderForm = ({
   );
 };
 
-export default PizzaOrderForm;
+export default OrderForm;
