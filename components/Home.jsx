@@ -15,7 +15,7 @@ const Home = () => {
           PİZZA, DOYURUR
         </h1>
         <Link to="/OrderPizza">
-          <button className="font-barlow font-semibold bg-[#FDC913] w-[193px] h-[56px] text-[24px] sm:text-[18px] mt-10  rounded-[50px] text-[#292929] leading-[56px]">
+          <button className="font-barlow font-semibold w-[193px] h-[56px] text-[24px] sm:text-[18px] mt-10  rounded-[50px] text-[#292929] leading-[56px] bg-[#FDC913] hover:bg-white transition-all duration-200 shadow-md cursor-pointer">
             ACIKTIM
           </button>
         </Link>

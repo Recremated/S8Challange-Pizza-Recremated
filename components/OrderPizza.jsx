@@ -147,9 +147,9 @@ const OrderPizza = () => {
   }, [formData, errors]);
 
   return (
-    <div className="bg-white min-h-screen flex flex-col items-center ">
+    <div className="bg-white flex flex-col items-center min-w-[390px] ">
       <Header></Header>
-      <div className="flex flex-col max-w-xs sm:max-w-md md:max-w-l lg:max-w-xl mx-[60px] gap-4 mt-5">
+      <div className="flex flex-col max-w-xs xs:max-w-sm sm:max-w-md md:max-w-l lg:max-w-xl mx-[60px] gap-4 mt-5">
         <h2 className="text-[27px] sm:text-[22px] font-barlow font-semibold">
           Position Absolute Acı Pizza
         </h2>

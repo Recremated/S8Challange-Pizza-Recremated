@@ -6,4 +6,5 @@
   --font-barlow: "Barlow", sans-serif;
   --font-quattrocento: "Quattrocento", serif;
   --font-satisfy: "Satisfy", cursive;
+  --breakpoint-xs: 450px;
 }
