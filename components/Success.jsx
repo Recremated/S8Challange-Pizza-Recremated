@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import "../src/styles/Success.css";
 
 const Success = () => {
   return (
-    <div className="flex justify-center min-h-screen w-full bg-[#CE2829]">
+    <main className="flex justify-center min-h-screen bg-[#CE2829] min-w-[390px]">
       <div className="flex flex-col text-center items-center mt-[120px] pb-65 mx-15 ">
         <img
           className="aspect-8/1 max-w-[362px]"
@@ -15,7 +14,7 @@ const Success = () => {
           SİPARİŞİNİZ ALINDI!
         </h1>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import "../src/styles/Home.css";
 
 const Home = () => {
   return (
-    <div className="bg-no-repeat flex justify-center bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center min-h-screen w-full">
+    <main className="bg-no-repeat flex justify-center bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center min-h-screen min-w-[390px]">
       <div className="flex flex-col text-center items-center mt-[120px] pb-65 mx-15 ">
         <img
           className="aspect-8/1 max-w-[362px]"
@@ -20,7 +19,7 @@ const Home = () => {
           </button>
         </Link>
       </div>
-    </div>
+    </main>
   );
 };
 
