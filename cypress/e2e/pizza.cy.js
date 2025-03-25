@@ -95,13 +95,13 @@ describe("Order Page ", () => {
     it("Ek malzeme sayisina ve adete gore fiyati dogru hesapliyor mu ?", () => {
       const ingredient = Math.floor(Math.random() * 10);
       const amount = Math.floor(Math.random() * 4) + 1;
-      const checkCount = ingredient; // Kaç tane checkbox işaretlenecek
+      const checkCount = ingredient;
       cy.get('input[type="checkbox"]').then((checkboxes) => {
         const checkboxArray = [...checkboxes];
-        Cypress._.shuffle(checkboxArray) // Checkboxları karıştır
-          .slice(0, checkCount) // Belirtilen sayıda checkbox seç
+        Cypress._.shuffle(checkboxArray)
+          .slice(0, checkCount)
           .forEach((checkbox) => {
-            cy.wrap(checkbox).check(); // Seçilen checkboxları işaretle
+            cy.wrap(checkbox).check();
           });
       });
       for (let i = 1; i < amount; i++) {
