@@ -3,7 +3,7 @@ import Footer from "./Footer";
 
 const Home = () => {
   return (
-    <main className="bg-no-repeat flex flex-col justify-center min-w-[390px]">
+    <main className="bg-[#F5F5F5] flex flex-col justify-center min-w-[390px]">
       <header className="flex flex-col text-center items-center  bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center min-h-screen ">
         <div className="mt-15 pb-65 mx-15 flex-col items-center flex justify-center">
           <img
@@ -27,6 +27,40 @@ const Home = () => {
           </Link>
         </div>
       </header>
+      <div className="flex flex-col">
+        <div className="bg-white py-5">
+          <div className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4">
+            <div className="flex gap-1 items-center justify-center">
+              <img src="../images/iteration-2-images/icons/1.svg" alt="" />
+              <p>YENİ! Kore</p>
+            </div>
+            <div className="flex gap-1 items-center justify-center">
+              <img src="../images/iteration-2-images/icons/2.svg" alt="" />
+              <p>Pizza</p>
+            </div>
+            <div className="flex gap-1 items-center justify-center">
+              <img src="../images/iteration-2-images/icons/3.svg" alt="" />
+              <p>Burger</p>
+            </div>
+            <div className="flex gap-1 items-center justify-center">
+              <img src="../images/iteration-2-images/icons/4.svg" alt="" />
+              <p>Kızartmalar</p>
+            </div>
+            <div className="flex gap-1 items-center justify-center">
+              <img src="../images/iteration-2-images/icons/5.svg" alt="" />
+              <p>Fast food</p>
+            </div>
+            <div className="flex gap-1 items-center justify-center">
+              <img src="../images/iteration-2-images/icons/6.svg" alt="" />
+              <p>Gazlı İçecek</p>
+            </div>
+          </div>
+        </div>
+
+        <div> butonlu resimler </div>
+        <div> baslik </div>
+        <div>bir div daha burasi ana navigasiyon</div>
+      </div>
       <Footer></Footer>
     </main>
   );
