@@ -4,7 +4,7 @@ import Footer from "./Footer";
 const Home = () => {
   return (
     <main className="bg-no-repeat flex flex-col justify-center min-w-[390px]">
-      <header className="flex flex-col text-center items-center  bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center h-screen ">
+      <header className="flex flex-col text-center items-center  bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center min-h-screen ">
         <div className="mt-15 pb-65 mx-15 flex-col items-center flex justify-center">
           <img
             className="aspect-8/1 max-w-[362px]"
