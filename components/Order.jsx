@@ -12,7 +12,7 @@ import Header from "./Header";
 import OrderForm from "./OrderForm";
 
 //ID bilgisi ana sayfada secilen urunden gelecek !
-const productId = 2;
+const productId = 1;
 //Find ile datadan istedigimiz id'ye sahip urunun verilerini aliyor
 const selectedProduct = {
   ...products.find((product) => product.id === productId),
