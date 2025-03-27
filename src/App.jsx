@@ -1,15 +1,17 @@
 import React from "react";
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../components/Home";
 import Order from "../components/Order";
 import Success from "../components/Success";
+import productData from "../src/constants/productData";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/Order" element={<Order />} />
-      <Route path="/Success" element={<Success />} />
+      <Route path="/" element={<Home productData={productData} />} />
+      <Route path="/Order" element={<Order productData={productData} />} />
+      <Route path="/Success" element={<Success productData={productData} />} />
     </Routes>
   );
 }

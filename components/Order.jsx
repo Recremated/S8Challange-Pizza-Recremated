@@ -1,47 +1,41 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  pizzaToppings,
-  thickness,
-  size,
-  initialFormData,
-  products,
-} from "../src/constants/productData";
 import Header from "./Header";
 import OrderForm from "./OrderForm";
 
-//ID bilgisi ana sayfada secilen urunden gelecek !
-const productId = 1;
-//Find ile datadan istedigimiz id'ye sahip urunun verilerini aliyor
-const selectedProduct = {
-  ...products.find((product) => product.id === productId),
-};
-// Boyut,kalinlik,ek malzemeler dinamik olarak siteye ekleniyor ve veri degistiginde guncelleniyor.
-const sizeOptions = { ...size };
-const thicknessOptions = { ...thickness };
-const selection = [...pizzaToppings];
-const initial = { ...initialFormData };
-
-const Order = () => {
+const Order = ({ productData }) => {
+  const { toppings, size, thickness, initialFormData, products } = productData;
   const navigate = useNavigate();
-  //Urun ID'sini ve baz fiyatini form verisine ekliyor
+
+  // Eğer dışarıdan `productId` gelmiyorsa, ilk ürünü varsayılan olarak kullan
+  const [productId, setProductId] = useState(
+    products.length > 0 ? products[0].id : null
+  );
+
+  // selectedProduct'u dinamik olarak belirle
+  const selectedProduct = useMemo(
+    () => products.find((product) => product.id === productId),
+    [productId, products]
+  );
+
+  // Form verisini başlat
   const [formData, setFormData] = useState({
-    ...initial,
-    basePrice: selectedProduct.price,
-    id: productId,
+    ...initialFormData,
+    basePrice: selectedProduct?.price || 0,
+    id: selectedProduct?.id || null,
   });
-  //Product ID degistignde formDatayi guncelliyor
+
+  // productId değiştiğinde formData'yı güncelle
   useEffect(() => {
-    const selectedProduct = products.find(
-      (product) => product.id === productId
-    );
-    setFormData((prevState) => ({
-      ...prevState,
-      basePrice: selectedProduct.price,
-      id: selectedProduct.id,
-    }));
-  }, [productId]);
+    if (selectedProduct) {
+      setFormData((prevState) => ({
+        ...prevState,
+        basePrice: selectedProduct.price,
+        id: selectedProduct.id,
+      }));
+    }
+  }, [selectedProduct]);
 
   // Hatalari tutan state. Basta sayfa bos olacagindan bununla ilgili errorler baslangicta ekleniyor.
   const [errors, setErrors] = useState({
@@ -202,9 +196,9 @@ const Order = () => {
           handleChange={handleChange}
           handleIngredientChange={handleIngredientChange}
           handleAmountChange={handleAmountChange}
-          sizeOptions={sizeOptions}
-          thicknessOptions={thicknessOptions}
-          selection={selection}
+          size={size}
+          thickness={thickness}
+          toppings={toppings}
           errors={errors}
           isValid={isValid}
           currentPrice={currentPrice}

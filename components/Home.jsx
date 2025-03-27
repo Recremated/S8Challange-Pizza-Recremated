@@ -1,7 +1,13 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Link as ScrollLink, Element } from "react-scroll";
 import Footer from "./Footer";
 
 const Home = () => {
+  const [selectedOption, setSelectedOption] = useState("");
+  const handleChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
   return (
     <main className="bg-[#F5F5F5] flex flex-col justify-center min-w-[390px] font-barlow">
       <header className="flex flex-col text-center items-center  bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center min-h-screen ">
@@ -32,6 +38,15 @@ const Home = () => {
           <div className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4">
             <div className="flex gap-1 items-center justify-center">
               <img src="../images/iteration-2-images/icons/1.svg" alt="" />
+              <ScrollLink
+                to="radioSection"
+                smooth={true}
+                duration={800}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition cursor-pointer"
+                onClick={() => setSelectedOption("option1")}
+              >
+                Aşağı Kaydır ve Radiobox'ı Seç
+              </ScrollLink>
               <p>YENİ! Kore</p>
             </div>
             <div className="flex gap-1 items-center justify-center">
@@ -95,116 +110,35 @@ const Home = () => {
           </h2>
         </div>
 
-        <div className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4 mt-8 t">
+        <Element
+          name="radioSection"
+          className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4 mt-8 t"
+        >
           <div className="flex gap-1 items-center justify-center">
             <label
-              htmlFor="kucuk"
-              className="flex items-center justify-center rounded-[50px] p-2 bg-white  hover:bg-[#292929] cursor-pointer hover:text-white  "
+              htmlFor="option1"
+              className={`flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white ${
+                selectedOption === "option1"
+                  ? "!bg-[#292929] text-white"
+                  : "bg-white"
+              }`}
             >
               <input
-                id="kucuk"
+                id="option1"
                 type="radio"
-                name="size"
+                name="types"
                 className="hidden"
-                value="kucuk"
+                value="option1"
+                checked={selectedOption === "option1"}
+                onChange={handleChange}
               />
-              <span className="flex gap-1 items-center justify-center p-1">
+              <span className="flex gap-1 items-center justify-center p-1 ">
                 <img src="../images/iteration-2-images/icons/1.svg" alt="" />
                 <p>Ramen</p>
               </span>
             </label>
           </div>
-          <div className="flex gap-1 items-center justify-center">
-            <label
-              htmlFor="kucuk"
-              className="flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white  "
-            >
-              <input
-                id="kucuk"
-                type="radio"
-                name="size"
-                className="hidden"
-                value="kucuk"
-              />
-              <span className="flex gap-1 items-center justify-center p-1">
-                <img src="../images/iteration-2-images/icons/2.svg" alt="" />
-                <p>Pizza</p>
-              </span>
-            </label>
-          </div>
-          <div className="flex gap-1 items-center justify-center">
-            <label
-              htmlFor="kucuk"
-              className="flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white  "
-            >
-              <input
-                id="kucuk"
-                type="radio"
-                name="size"
-                className="hidden"
-                value="kucuk"
-              />
-              <span className="flex gap-1 items-center justify-center p-1">
-                <img src="../images/iteration-2-images/icons/3.svg" alt="" />
-                <p>Burger</p>
-              </span>
-            </label>
-          </div>
-          <div className="flex gap-1 items-center justify-center">
-            <label
-              htmlFor="kucuk"
-              className="flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white  "
-            >
-              <input
-                id="kucuk"
-                type="radio"
-                name="size"
-                className="hidden"
-                value="kucuk"
-              />
-              <span className="flex gap-1 items-center justify-center p-1">
-                <img src="../images/iteration-2-images/icons/4.svg" alt="" />
-                <p>French fries</p>
-              </span>
-            </label>
-          </div>
-          <div className="flex gap-1 items-center justify-center">
-            <label
-              htmlFor="kucuk"
-              className="flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white  "
-            >
-              <input
-                id="kucuk"
-                type="radio"
-                name="size"
-                className="hidden"
-                value="kucuk"
-              />
-              <span className="flex gap-1 items-center justify-center p-1">
-                <img src="../images/iteration-2-images/icons/5.svg" alt="" />
-                <p>Fast food</p>
-              </span>
-            </label>
-          </div>
-          <div className="flex gap-1 items-center justify-center">
-            <label
-              htmlFor="kucuk"
-              className="flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white  "
-            >
-              <input
-                id="kucuk"
-                type="radio"
-                name="size"
-                className="hidden"
-                value="kucuk"
-              />
-              <span className="flex gap-1 items-center justify-center p-1">
-                <img src="../images/iteration-2-images/icons/6.svg" alt="" />
-                <p>Soft drinks</p>
-              </span>
-            </label>
-          </div>
-        </div>
+        </Element>
       </div>
       <Footer></Footer>
     </main>

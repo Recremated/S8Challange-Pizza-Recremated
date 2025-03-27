@@ -4,9 +4,9 @@ const OrderForm = ({
   handleChange,
   handleIngredientChange,
   handleAmountChange,
-  sizeOptions,
-  thicknessOptions,
-  selection,
+  size,
+  thickness,
+  toppings,
   errors,
   isValid,
   currentPrice,
@@ -21,7 +21,7 @@ const OrderForm = ({
             {errors.size && <span className="text-[#D80027]"> *</span>}
           </p>
           <div className="flex w-full gap-2">
-            {sizeOptions.items.map((option) => (
+            {size.map((option) => (
               <label
                 htmlFor={option.value}
                 key={option.value}
@@ -66,7 +66,7 @@ const OrderForm = ({
             className="text-[20px] sm:text-[16px] rounded border-7 border-[#faf7f2] text-[#5F5F5F] focus:outline-none focus:ring-2 focus:ring-[#FDC913] bg-[#faf7f2] py-3 cursor-pointer"
           >
             <option value="">--Hamur Kalınlığı Seç--</option>
-            {thicknessOptions.items.map((option) => (
+            {thickness.map((option) => (
               <option value={option.value} key={option.value}>
                 {option.label}
               </option>
@@ -83,7 +83,7 @@ const OrderForm = ({
           En Fazla 10 malzeme seçebilirsiniz. 5₺
         </p>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-          {selection.map((ingredient) => (
+          {toppings.map((ingredient) => (
             <label key={ingredient} className="flex items-center">
               <input
                 type="checkbox"
