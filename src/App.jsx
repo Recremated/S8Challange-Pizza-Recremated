@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import NotFound from "./components/NotFound";
 import Home from "./pages/Home";
 import Order from "./pages/Order";
 import Success from "./pages/Success";
@@ -18,6 +19,7 @@ function App() {
           path="/Success"
           element={<Success productData={productData} />}
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer productData={productData}></Footer>
     </>

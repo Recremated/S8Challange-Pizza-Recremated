@@ -25,7 +25,7 @@ const OrderForm = ({
               <label
                 htmlFor={option.value}
                 key={option.value}
-                className={`flex items-center justify-center rounded-full bg-[#faf7f2] w-15 h-15 hover:bg-[#fdc913] cursor-pointer  ${
+                className={`flex items-center justify-center rounded-full bg-[#faf7f2] w-15 h-15 hover:bg-[#fdc913] transition-all duration-170 shadow-md cursor-pointer  ${
                   formData.size === option.value ? "bg-[#fdc913]" : ""
                 }`}
               >
@@ -91,7 +91,7 @@ const OrderForm = ({
                 name="ingredients"
                 checked={formData.ingredients.includes(ingredient)}
                 onChange={() => handleIngredientChange(ingredient)}
-                className="hover:border-1 hover:transition-colors flex pt-1 items-center text-2xl justify-center font-satisfy appearance-none w-10 h-10 rounded-md bg-[#faf7f2] checked:bg-[#FDC913] checked:after:content-['✓'] transition-colors duration-150 cursor-pointer"
+                className="hover:border-1 hover:transition-colors flex pt-1 items-center text-2xl justify-center font-satisfy appearance-none w-10 h-10 rounded-md bg-[#faf7f2] checked:bg-[#FDC913] checked:after:content-['✓'] transition-all duration-120 shadow-md cursor-pointer"
               />
               <span className="ml-3 font-bold text-[20px] sm:text-[16px] text-[#5F5F5F] cursor-pointer">
                 {ingredient}

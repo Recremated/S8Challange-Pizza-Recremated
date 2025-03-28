@@ -9,7 +9,7 @@ const Success = ({ productData }) => {
   return (
     <main className="flex flex-col justify-center min-w-[390px] font-barlow text-white bg-[#CE2829]">
       <Header></Header>
-      <div className="flex flex-col justify-center items-center px-6 pb-40 mx-auto w-full max-w-6xl mt-8 text-center">
+      <div className="flex flex-col justify-center items-center px-6 pb-26 mx-auto w-full max-w-6xl mt-8 text-center">
         <div className="flex flex-col gap-0 border-b border-[#FAF7F2] pb-6">
           <p className="font-satisfy text-[27px] sm:text-[32px] text-[#FDC913]">
             lezzetin yolda

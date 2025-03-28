@@ -171,7 +171,10 @@ const Order = ({ productData }) => {
         <div className="flex flex-col max-w-xs xs:max-w-sm sm:max-w-md md:max-w-l lg:max-w-xl mx-[60px] gap-6">
           <img src="../images/iteration-2-images/pictures/form-banner.png"></img>
           <div className="flex">
-            <p onClick={() => navigate("/")} className="cursor-pointer">
+            <p
+              onClick={() => navigate("/")}
+              className="hover:text-[#CE2829] cursor-pointer"
+            >
               Anasayfa
             </p>
             <span>
