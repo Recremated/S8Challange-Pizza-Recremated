@@ -1,23 +1,14 @@
-import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header";
 import OrderForm from "./OrderForm";
 
 const Order = ({ productData }) => {
-  const { toppings, size, thickness, initialFormData, products } = productData;
+  const location = useLocation();
+  const selectedProduct = location.state?.selectedProduct;
+  const { toppings, size, thickness, initialFormData } = productData;
   const navigate = useNavigate();
-
-  // Eğer dışarıdan `productId` gelmiyorsa, ilk ürünü varsayılan olarak kullan
-  const [productId, setProductId] = useState(
-    products.length > 0 ? products[0].id : null
-  );
-
-  // selectedProduct'u dinamik olarak belirle
-  const selectedProduct = useMemo(
-    () => products.find((product) => product.id === productId),
-    [productId, products]
-  );
 
   // Form verisini başlat
   const [formData, setFormData] = useState({

@@ -1,13 +1,44 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link as ScrollLink, Element } from "react-scroll";
 import Footer from "./Footer";
 
-const Home = () => {
+const Home = ({ productData }) => {
+  const navigate = useNavigate();
+  const { products, newType, types } = productData;
+  const [productId, setProductId] = useState(4);
+  const [filteredArray, setFilteredArray] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(
+    products.find((product) => product.id === productId)
+  );
   const [selectedOption, setSelectedOption] = useState("");
+  const handleOrderClick = (itemId) => {
+    setProductId(itemId);
+    const updatedProduct = products.find((product) => product.id === itemId);
+    navigate("/order", { state: { selectedProduct: updatedProduct } });
+  };
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
   };
+
+  useEffect(() => {
+    const filteredProducts = products.filter(
+      (item) => item.type === selectedOption
+    );
+    setFilteredArray(filteredProducts);
+  }, [selectedOption, products]);
+  const toSvgType = (item) =>
+    item
+      .toLowerCase()
+      .replace(/ı/g, "i")
+      .replace(/ğ/g, "g")
+      .replace(/ş/g, "s")
+      .replace(/ç/g, "c")
+      .replace(/ö/g, "o")
+      .replace(/ü/g, "u")
+      .replace(/ö/g, "o")
+      .replace(/ı/g, "i")
+      .replace(/ /g, "-");
   return (
     <main className="bg-[#F5F5F5] flex flex-col justify-center min-w-[390px] font-barlow">
       <header className="flex flex-col text-center items-center  bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center min-h-screen ">
@@ -18,7 +49,6 @@ const Home = () => {
             alt="Logo"
           ></img>
           <p className="font-satisfy mt-10 text-[#FDC913] text-2xl">
-            {" "}
             Firsati Kacirma
           </p>
           <h1 className="text-white text-[86px] font-roboto-condensed font-light leading-[92px] tracking-[1.5px]">
@@ -26,49 +56,37 @@ const Home = () => {
             <br />
             PİZZA, DOYURUR
           </h1>
-          <Link to="/Order">
-            <button className="font-semibold w-[193px] h-[56px] text-[24px] sm:text-[18px] mt-10  rounded-[50px] text-[#292929] leading-[56px] bg-[#FDC913] hover:bg-white transition-all duration-200 shadow-md cursor-pointer">
-              ACIKTIM
-            </button>
-          </Link>
+          <button className="font-semibold w-[193px] h-[56px] text-[24px] sm:text-[18px] mt-10  rounded-[50px] text-[#292929] leading-[56px] bg-[#FDC913] hover:bg-white transition-all duration-200 shadow-md cursor-pointer">
+            ACIKTIM
+          </button>
         </div>
       </header>
       <div className="flex flex-col bg-[#FAF7F2]">
         <div className="bg-white py-5">
           <div className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4">
-            <div className="flex gap-1 items-center justify-center">
-              <img src="../images/iteration-2-images/icons/1.svg" alt="" />
-              <ScrollLink
-                to="radioSection"
-                smooth={true}
-                duration={800}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition cursor-pointer"
-                onClick={() => setSelectedOption("option1")}
-              >
-                Aşağı Kaydır ve Radiobox'ı Seç
-              </ScrollLink>
-              <p>YENİ! Kore</p>
-            </div>
-            <div className="flex gap-1 items-center justify-center">
-              <img src="../images/iteration-2-images/icons/2.svg" alt="" />
-              <p>Pizza</p>
-            </div>
-            <div className="flex gap-1 items-center justify-center">
-              <img src="../images/iteration-2-images/icons/3.svg" alt="" />
-              <p>Burger</p>
-            </div>
-            <div className="flex gap-1 items-center justify-center">
-              <img src="../images/iteration-2-images/icons/4.svg" alt="" />
-              <p>Kızartmalar</p>
-            </div>
-            <div className="flex gap-1 items-center justify-center">
-              <img src="../images/iteration-2-images/icons/5.svg" alt="" />
-              <p>Fast food</p>
-            </div>
-            <div className="flex gap-1 items-center justify-center">
-              <img src="../images/iteration-2-images/icons/6.svg" alt="" />
-              <p>Gazlı İçecek</p>
-            </div>
+            {types.map((type, index) => {
+              const newTypeHype = index === 0 ? newType[1] : type;
+              return (
+                <ScrollLink
+                  key={`${type}123${index}`}
+                  to="radioSection"
+                  smooth={true}
+                  duration={800}
+                  className="cursor-pointer"
+                  onClick={() => setSelectedOption(newTypeHype)}
+                >
+                  <div className="flex gap-1 items-center justify-center">
+                    <img
+                      src={`../images/iteration-2-images/icons/${toSvgType(
+                        newTypeHype
+                      )}.svg`}
+                      alt=""
+                    />
+                    <p>{type}</p>
+                  </div>
+                </ScrollLink>
+              );
+            })}
           </div>
         </div>
 
@@ -114,31 +132,69 @@ const Home = () => {
           name="radioSection"
           className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4 mt-8 t"
         >
-          <div className="flex gap-1 items-center justify-center">
-            <label
-              htmlFor="option1"
-              className={`flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white ${
-                selectedOption === "option1"
-                  ? "!bg-[#292929] text-white"
-                  : "bg-white"
-              }`}
-            >
-              <input
-                id="option1"
-                type="radio"
-                name="types"
-                className="hidden"
-                value="option1"
-                checked={selectedOption === "option1"}
-                onChange={handleChange}
-              />
-              <span className="flex gap-1 items-center justify-center p-1 ">
-                <img src="../images/iteration-2-images/icons/1.svg" alt="" />
-                <p>Ramen</p>
-              </span>
-            </label>
-          </div>
+          {types.map((type) => (
+            <div className="flex gap-1 items-center justify-center" key={type}>
+              <label
+                htmlFor={type}
+                className={`flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white ${
+                  selectedOption === type
+                    ? "!bg-[#292929] text-white"
+                    : "bg-white"
+                }`}
+              >
+                <input
+                  id={type}
+                  type="radio"
+                  name="types"
+                  className="hidden"
+                  value={type}
+                  checked={selectedOption === type}
+                  onChange={handleChange}
+                />
+                <span className="flex gap-1 items-center justify-center p-1 ">
+                  <img
+                    src={`../images/iteration-2-images/icons/${toSvgType(
+                      type
+                    )}.svg`}
+                    alt=""
+                  />
+                  <p>{type}</p>
+                </span>
+              </label>
+            </div>
+          ))}
         </Element>
+
+        <div className="px-5 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8">
+          {filteredArray.map((item, index) => (
+            <div
+              key={index}
+              className="flex gap-1 items-center justify-center flex-col bg-white"
+            >
+              <img
+                src="../images/iteration-2-images/pictures/food-1.png"
+                className="aspect-1/1"
+                alt={item.name}
+              />
+              <div className="flex flex-col w-full gap-1">
+                <p>{item.name}</p>
+                <div className="flex justify-between">
+                  <p>{item.rating}</p>
+                  <div className="flex gap-3">
+                    <p>{item.reviewsCount}</p>
+                    <p>{item.price}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleOrderClick(item.id)}
+                  className="font-semibold text-[24px] sm:text-[18px]  rounded-[50px] text-[#292929] leading-[56px] bg-[#FDC913] hover:bg-white transition-all duration-200 shadow-md cursor-pointer"
+                >
+                  Siparis ver
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
       <Footer></Footer>
     </main>
