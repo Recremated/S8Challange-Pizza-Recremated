@@ -11,15 +11,17 @@ const Success = ({ productData }) => {
       <Header></Header>
       <div className="flex flex-col justify-center items-center px-6 pb-40 mx-auto w-full max-w-6xl mt-8 text-center">
         <div className="flex flex-col gap-0 border-b border-[#FAF7F2] pb-6">
-          <p className="font-satisfy text-[32px] text-[#FDC913]">
+          <p className="font-satisfy text-[27px] sm:text-[32px] text-[#FDC913]">
             lezzetin yolda
           </p>
-          <h2 className="font-roboto-condensed text-[92px] font-light">
+          <h2 className="font-roboto-condensed text-[72px] sm:text-[92px] font-light tracking-[1.5px]">
             SİPARİŞ ALINDI
           </h2>
         </div>
         <div className="flex flex-col mt-8 items-center">
-          <p className="text-[22px] font-semibold">{selectedProduct.name}</p>
+          <p className="text-[20px] sm:text-[22px] font-semibold">
+            {selectedProduct.name}
+          </p>
           <div className="flex flex-col text-left w-4/10 mt-8 mb-10 gap-3">
             <p>
               Boyut:

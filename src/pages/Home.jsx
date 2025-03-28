@@ -62,7 +62,7 @@ const Home = ({ productData }) => {
       </div>
       <div className="flex flex-col bg-[#FAF7F2]">
         <div className="bg-white py-5">
-          <div className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4">
+          <div className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4 mt-8">
             {types.map((type, index) => {
               const newTypeHype = index === 0 ? newType[1] : type;
               return (
@@ -74,7 +74,7 @@ const Home = ({ productData }) => {
                   className="cursor-pointer"
                   onClick={() => setSelectedOption(newTypeHype)}
                 >
-                  <div className="flex gap-1 items-center justify-center p-1 hover:bg-[#292929] hover:text-white rounded-[50px]">
+                  <div className="flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white">
                     <img
                       src={`../images/iteration-2-images/icons/${toSvgType(
                         newTypeHype
@@ -89,35 +89,6 @@ const Home = ({ productData }) => {
           </div>
         </div>
 
-        <div className="flex justify-center px-6 mx-auto w-full max-w-6xl flex-wrap sm:flex-nowrap gap-2 mt-8 ">
-          <div className=" aspect-636/536 bg-red-600 p-6 text-white flex flex-col w-full bg-cover bg-[url(../images/iteration-2-images/cta/kart-1.png)] bg-center rounded ">
-            <h2 className="text-4xl font-bold mx-3">Özel Lezzetus</h2>
-            <p className="mt-2 text-sm mx-3">Position: Absolute Acı Burger</p>
-            <button className="mt-4 mx-3 bg-white text-red-600 py-2 px-4 rounded-full font-semibold w-1/3">
-              SİPARİŞ VER
-            </button>
-          </div>
-          <div className="flex flex-col w-full gap-2">
-            <div className=" aspect-636/268 bg-yellow-200  text-white p-6 flex flex-col bg-cover bg-[url(../images/iteration-2-images/cta/kart-2.png)] bg-center rounded">
-              <h2 className="text-xl font-bold w-1/2">
-                Hackathlon Burger Menü
-              </h2>
-              <button className=" bg-white text-gray-800 py-2 px-4 rounded-full font-semibold w-1/3 ">
-                SİPARİŞ VER
-              </button>
-            </div>
-            <div className=" aspect-636/268 bg-yellow-200 text-gray-900 p-6 flex flex-col bg-cover bg-[url(../images/iteration-2-images/cta/kart-3.png)] bg-center rounded ">
-              <h2 className="text-xl font-bold w-1/2">
-                <span className="text-red-600">Çoooook</span> hızlı npm gibi
-                kurye
-              </h2>
-              <button className="mt-4 bg-gray-800 text-white py-2 px-4 rounded-full font-semibold w-1/3">
-                SİPARİŞ VER
-              </button>
-            </div>
-          </div>
-        </div>
-
         <div className="flex flex-col justify-center items-center px-6 mx-auto w-full max-w-6xl mt-8 text-center">
           <p className="font-satisfy text-[32px] text-[#CE2829]">
             en çopk paketlenen menüler
@@ -129,10 +100,10 @@ const Home = ({ productData }) => {
 
         <Element
           name="radioSection"
-          className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4 mt-8 t"
+          className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4 mt-8 "
         >
           {types.map((type) => (
-            <div className="flex gap-1 items-center justify-center" key={type}>
+            <div className="flex gap-1 " key={type}>
               <label
                 htmlFor={type}
                 className={`flex items-center justify-center rounded-[50px] p-2 bg-white hover:bg-[#292929] cursor-pointer hover:text-white ${
@@ -164,7 +135,7 @@ const Home = ({ productData }) => {
           ))}
         </Element>
 
-        <div className="px-5 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-4 my-8">
+        <div className="px-5 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-8">
           {filteredArray.map((item, index) => (
             <div
               key={index}

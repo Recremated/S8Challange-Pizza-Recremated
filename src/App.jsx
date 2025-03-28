@@ -19,7 +19,7 @@ function App() {
           element={<Success productData={productData} />}
         />
       </Routes>
-      <Footer></Footer>
+      <Footer productData={productData}></Footer>
     </>
   );
 }
