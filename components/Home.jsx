@@ -1,19 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link as ScrollLink, Element } from "react-scroll";
-import Footer from "./Footer";
 
 const Home = ({ productData }) => {
   const navigate = useNavigate();
   const { products, newType, types } = productData;
-  const [productId, setProductId] = useState(4);
   const [filteredArray, setFilteredArray] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(
-    products.find((product) => product.id === productId)
-  );
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState(types[0]);
   const handleOrderClick = (itemId) => {
-    setProductId(itemId);
     const updatedProduct = products.find((product) => product.id === itemId);
     navigate("/order", { state: { selectedProduct: updatedProduct } });
   };
@@ -196,7 +190,6 @@ const Home = ({ productData }) => {
           ))}
         </div>
       </div>
-      <Footer></Footer>
     </main>
   );
 };

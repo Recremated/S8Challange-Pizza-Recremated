@@ -5,6 +5,7 @@ import Order from "../components/Order";
 import Success from "../components/Success";
 import productData from "../src/constants/productData";
 import ScrollToTop from "../components/ScrollToTop";
+import Footer from "../components/Footer";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           element={<Success productData={productData} />}
         />
       </Routes>
+      <Footer></Footer>
     </>
   );
 }
