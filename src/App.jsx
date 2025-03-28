@@ -1,6 +1,6 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import NotFound from "./components/NotFound";
+import { Route, Routes, useLocation } from "react-router-dom";
+import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Order from "./pages/Order";
 import Success from "./pages/Success";
@@ -9,6 +9,11 @@ import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./components/Footer";
 
 function App() {
+  const location = useLocation();
+
+  // Geçerli sayfalar
+  const validPaths = ["/", "/Order", "/Success"];
+
   return (
     <>
       <ScrollToTop />
@@ -21,7 +26,10 @@ function App() {
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer productData={productData}></Footer>
+
+      {validPaths.includes(location.pathname) && (
+        <Footer productData={productData} />
+      )}
     </>
   );
 }

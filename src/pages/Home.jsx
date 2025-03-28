@@ -5,12 +5,16 @@ import Header from "../components/Header";
 
 const Home = ({ productData }) => {
   const navigate = useNavigate();
+  //Destructuring
   const { products, newType, types } = productData;
+  //filtreledigim array
   const [filteredArray, setFilteredArray] = useState([]);
+  //sectigim urun cesidi
   const [selectedOption, setSelectedOption] = useState(types[0]);
+  //tiklaninca orderda o urunun siparis sayfasini aciyor
   const handleOrderClick = (itemId) => {
     const updatedProduct = products.find((product) => product.id === itemId);
-    navigate("/order", { state: { selectedProduct: updatedProduct } });
+    navigate("/Order", { state: { selectedProduct: updatedProduct } });
   };
   const handleChange = (e) => {
     setSelectedOption(e.target.value);

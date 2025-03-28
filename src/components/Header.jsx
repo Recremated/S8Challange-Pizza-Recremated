@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-const Header = ({ className }) => {
+const Header = () => {
   const location = useLocation();
 
   const headerClassName =
