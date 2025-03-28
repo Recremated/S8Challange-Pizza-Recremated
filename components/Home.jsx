@@ -82,7 +82,7 @@ const Home = ({ productData }) => {
                       )}.svg`}
                       alt=""
                     />
-                    <p>{type}</p>
+                    <p>{index === 0 ? newType[0] : type}</p>
                   </div>
                 </ScrollLink>
               );
