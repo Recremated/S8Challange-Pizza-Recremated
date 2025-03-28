@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import OrderForm from "./OrderForm";
-import Header from "./Header";
+import OrderForm from "../components/OrderForm";
+import Header from "../components/Header";
 
 const Order = ({ productData }) => {
   const location = useLocation();
