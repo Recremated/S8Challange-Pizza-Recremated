@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link as ScrollLink, Element } from "react-scroll";
+import Header from "../components/Header";
 
 const Home = ({ productData }) => {
   const navigate = useNavigate();
@@ -35,15 +36,11 @@ const Home = ({ productData }) => {
       .replace(/ /g, "-");
   return (
     <main className="bg-[#F5F5F5] flex flex-col justify-center min-w-[390px] font-barlow">
-      <header className="flex flex-col text-center items-center  bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center min-h-screen ">
+      <div className="flex flex-col text-center items-center  bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center min-h-screen ">
+        <Header className="bg-none mt-[50px]"></Header>
         <div className="mt-15 pb-65 mx-15 flex-col items-center flex justify-center">
-          <img
-            className="aspect-8/1 max-w-[362px]"
-            src="../images/iteration-1-images/logo.svg"
-            alt="Logo"
-          ></img>
-          <p className="font-satisfy mt-10 text-[#FDC913] text-2xl">
-            Firsati Kacirma
+          <p className="font-satisfy  text-[#FDC913] text-2xl">
+            firsati Kacirma
           </p>
           <h1 className="text-white text-[86px] font-roboto-condensed font-light leading-[92px] tracking-[1.5px]">
             KOD ACIKTIRIR
@@ -54,7 +51,7 @@ const Home = ({ productData }) => {
             ACIKTIM
           </button>
         </div>
-      </header>
+      </div>
       <div className="flex flex-col bg-[#FAF7F2]">
         <div className="bg-white py-5">
           <div className="px-5 max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-4">

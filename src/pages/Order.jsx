@@ -166,22 +166,35 @@ const Order = ({ productData }) => {
 
   return (
     <main className="bg-white flex flex-col items-center min-w-[390px] ">
-      <Header></Header>
-      <div className="flex flex-col max-w-xs xs:max-w-sm sm:max-w-md md:max-w-l lg:max-w-xl mx-[60px] gap-4 mt-5">
-        <h2 className="text-[27px] sm:text-[22px] font-barlow font-semibold">
-          {selectedProduct.name}
-        </h2>
-        <div className="flex items-center font-barlow justify-between">
-          <span className="text-[28px] font-bold">
-            {formData.basePrice.toFixed(2)}₺
-          </span>
-          <span className="text-gray-500">
-            {selectedProduct.rating} ⭐ ({selectedProduct.reviewsCount})
-          </span>
+      <Header className="bg-[#CE2829] h-[130px]"></Header>
+      <div className="flex flex-col items-center bg-[#faf7f2] w-full pb-9">
+        <div className="flex flex-col max-w-xs xs:max-w-sm sm:max-w-md md:max-w-l lg:max-w-xl mx-[60px] gap-6">
+          <img src="../images/iteration-2-images/pictures/form-banner.png"></img>
+          <div className="flex">
+            <p onClick={() => navigate("/")} className="cursor-pointer">
+              Anasayfa
+            </p>
+            <span>
+              - <span className="text-[#CE2829]">Sipariş Oluştur</span>
+            </span>
+          </div>
+          <h2 className="text-[27px] sm:text-[22px] font-barlow font-semibold">
+            {selectedProduct.name}
+          </h2>
+          <div className="flex items-center font-barlow justify-between">
+            <span className="text-[28px] font-bold">
+              {formData.basePrice.toFixed(2)}₺
+            </span>
+            <span className="text-gray-500">
+              {selectedProduct.rating} ⭐ ({selectedProduct.reviewsCount})
+            </span>
+          </div>
+          <p className="text-[#5F5F5F] font-barlow mt-4 text-[20px] sm:text-[16px] ">
+            {selectedProduct.description}
+          </p>
         </div>
-        <p className="text-[#5F5F5F] font-barlow mt-4 text-[20px] sm:text-[16px] ">
-          {selectedProduct.description}
-        </p>
+      </div>
+      <div className="flex flex-col max-w-xs xs:max-w-sm sm:max-w-md md:max-w-l lg:max-w-xl mx-[60px] gap-4">
         <OrderForm
           formData={formData}
           handleChange={handleChange}
