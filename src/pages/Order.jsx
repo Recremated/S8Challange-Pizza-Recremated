@@ -146,7 +146,7 @@ const Order = ({ productData }) => {
         })
         .then(function (response) {
           console.log(response.data);
-          navigate("/Success");
+          navigate("/Success", { state: { data: response.data } });
         })
         .catch(function (error) {
           console.log(error);
@@ -166,7 +166,7 @@ const Order = ({ productData }) => {
 
   return (
     <main className="bg-white flex flex-col items-center min-w-[390px] ">
-      <Header className="bg-[#CE2829] h-[130px]"></Header>
+      <Header></Header>
       <div className="flex flex-col items-center bg-[#faf7f2] w-full pb-9">
         <div className="flex flex-col max-w-xs xs:max-w-sm sm:max-w-md md:max-w-l lg:max-w-xl mx-[60px] gap-6">
           <img src="../images/iteration-2-images/pictures/form-banner.png"></img>

@@ -37,7 +37,7 @@ const Home = ({ productData }) => {
   return (
     <main className="bg-[#F5F5F5] flex flex-col justify-center min-w-[390px] font-barlow">
       <div className="flex flex-col text-center items-center  bg-cover bg-[url(../images/iteration-1-images/home-banner.png)] bg-center min-h-screen ">
-        <Header className="bg-none mt-[50px]"></Header>
+        <Header></Header>
         <div className="mt-15 pb-65 mx-15 flex-col items-center flex justify-center">
           <p className="font-satisfy  text-[#FDC913] text-2xl">
             firsati Kacirma
@@ -47,9 +47,17 @@ const Home = ({ productData }) => {
             <br />
             PİZZA, DOYURUR
           </h1>
-          <button className="font-semibold w-[193px] h-[56px] text-[24px] sm:text-[18px] mt-10  rounded-[50px] text-[#292929] leading-[56px] bg-[#FDC913] hover:bg-white transition-all duration-200 shadow-md cursor-pointer">
-            ACIKTIM
-          </button>
+          <ScrollLink
+            key="hero"
+            to="radioSection"
+            smooth={true}
+            duration={800}
+            className="cursor-pointer"
+          >
+            <button className="font-semibold w-[193px] h-[56px] text-[24px] sm:text-[18px] mt-10  rounded-[50px] text-[#292929] leading-[56px] bg-[#FDC913] hover:bg-white transition-all duration-200 shadow-md cursor-pointer">
+              ACIKTIM
+            </button>
+          </ScrollLink>
         </div>
       </div>
       <div className="flex flex-col bg-[#FAF7F2]">
@@ -66,7 +74,7 @@ const Home = ({ productData }) => {
                   className="cursor-pointer"
                   onClick={() => setSelectedOption(newTypeHype)}
                 >
-                  <div className="flex gap-1 items-center justify-center">
+                  <div className="flex gap-1 items-center justify-center p-1 hover:bg-[#292929] hover:text-white rounded-[50px]">
                     <img
                       src={`../images/iteration-2-images/icons/${toSvgType(
                         newTypeHype
@@ -170,10 +178,10 @@ const Home = ({ productData }) => {
               <div className="flex flex-col w-full gap-1">
                 <p>{item.name}</p>
                 <div className="flex justify-between">
-                  <p>{item.rating}</p>
+                  <p>{item.rating}⭐</p>
                   <div className="flex gap-3">
-                    <p>{item.reviewsCount}</p>
-                    <p>{item.price}</p>
+                    <p>({item.reviewsCount})</p>
+                    <p>{item.price}₺</p>
                   </div>
                 </div>
                 <button

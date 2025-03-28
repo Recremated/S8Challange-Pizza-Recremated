@@ -24,14 +24,14 @@ const productData = {
     "Kabak",
   ],
   size: [
-    { value: "kucuk", label: "S" },
-    { value: "orta", label: "M" },
-    { value: "buyuk", label: "L" },
+    { value: "S", label: "S" },
+    { value: "M", label: "M" },
+    { value: "L", label: "L" },
   ],
   thickness: [
-    { value: "ince", label: "İnce" },
-    { value: "incecik", label: "İncecik" },
-    { value: "klasik", label: "Klasik" },
+    { value: "İnce", label: "İnce" },
+    { value: "Süpper İnce", label: "Süpper İnce" },
+    { value: "Klasik", label: "Klasik" },
   ],
   initialFormData: {
     id: "",
@@ -87,10 +87,10 @@ const productData = {
     },
     {
       id: 9,
-      name: "Pizza BBQ Chicken",
+      name: "Nihal Special BBQ Chicken",
       description:
-        "Barbekü sosu, tavuk ve cheddar peyniri ile zenginleştirilmiş nefis bir pizza.",
-      price: 18.99,
+        "Barbekü sosu, tavuk ve cheddar peyniri ile zenginleştirilmiş nefis bir pizza. Nihalin spesiyalidir",
+      price: 342,
       rating: 4.8,
       reviewsCount: 200,
       type: "Pizza",

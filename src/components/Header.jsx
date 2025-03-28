@@ -1,9 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
+
 const Header = ({ className }) => {
   const location = useLocation();
-  const pathName = location.pathname.replace("/", "").replace("-", " ");
+
+  const headerClassName =
+    location.pathname === "/" ? "bg-none mt-[50px]" : "bg-[#CE2829] h-[130px]";
+
   return (
-    <header className={`text-white w-full flex flex-col ${className}`}>
+    <header className={`text-white w-full flex flex-col ${headerClassName}`}>
       <div className="flex-1 flex items-center justify-center">
         <Link to="/">
           <img
@@ -16,4 +20,5 @@ const Header = ({ className }) => {
     </header>
   );
 };
+
 export default Header;
