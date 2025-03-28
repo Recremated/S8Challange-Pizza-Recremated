@@ -165,7 +165,7 @@ const Home = ({ productData }) => {
           ))}
         </Element>
 
-        <div className="px-5 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8">
+        <div className="px-5 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-4 my-8">
           {filteredArray.map((item, index) => (
             <div
               key={index}
