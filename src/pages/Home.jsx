@@ -26,7 +26,8 @@ const Home = ({ productData }) => {
     );
     setFilteredArray(filteredProducts);
   }, [selectedOption, products]);
-  const toSvgType = (item) =>
+
+  const toKebabCase = (item) =>
     item
       .toLowerCase()
       .replace(/ı/g, "i")
@@ -80,7 +81,7 @@ const Home = ({ productData }) => {
                 >
                   <div className="flex items-center justify-center rounded-[50px] p-2 bg-white transition-all duration-170 shadow-md hover:bg-[#292929] cursor-pointer hover:text-white">
                     <img
-                      src={`../images/iteration-2-images/icons/${toSvgType(
+                      src={`../images/iteration-2-images/icons/${toKebabCase(
                         newTypeHype
                       )}.svg`}
                       alt=""
@@ -179,7 +180,7 @@ const Home = ({ productData }) => {
                 />
                 <span className="flex gap-1 items-center justify-center p-1 ">
                   <img
-                    src={`../images/iteration-2-images/icons/${toSvgType(
+                    src={`../images/iteration-2-images/icons/${toKebabCase(
                       type
                     )}.svg`}
                     alt=""
@@ -198,7 +199,9 @@ const Home = ({ productData }) => {
               className="flex gap-1 items-center justify-center flex-col bg-white p-[32px] rounded-[12px]"
             >
               <img
-                src="../images/iteration-2-images/pictures/food-1.png"
+                src={`../images/iteration-2-images/pictures/${toKebabCase(
+                  item.type
+                )}-${item.id}.png`}
                 className="aspect-1/1"
                 alt={item.name}
               />

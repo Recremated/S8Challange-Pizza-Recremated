@@ -222,7 +222,7 @@ const productData = {
       price: 75,
       rating: 4.4,
       reviewsCount: 140,
-      type: "Fast food",
+      type: "Gazlı İçecekler",
     },
     {
       id: 26,
@@ -258,7 +258,7 @@ const productData = {
       price: 242.5,
       rating: 4.7,
       reviewsCount: 170,
-      type: "Gazlı İçecekler",
+      type: "Fast food",
     },
     {
       id: 30,
