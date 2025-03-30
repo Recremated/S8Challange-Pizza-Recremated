@@ -202,7 +202,7 @@ const Home = ({ productData }) => {
                 src={`../images/iteration-2-images/pictures/${toKebabCase(
                   item.type
                 )}-${item.id}.png`}
-                className="aspect-1/1"
+                className="aspect-1/1 w-[307px]"
                 alt={item.name}
               />
               <div className="flex flex-col w-full gap-1 ">

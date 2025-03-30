@@ -11,6 +11,7 @@ const OrderForm = ({
   isValid,
   currentPrice,
   handleSubmit,
+  type
 }) => {
   return (
     <form className="font-barlow" onSubmit={handleSubmit}>
@@ -80,7 +81,7 @@ const OrderForm = ({
           Ek Malzemeler
         </p>
         <p className="my-4 text-[20px] sm:text-[16px] text-[#5F5F5F]">
-          En Fazla 10 malzeme seçebilirsiniz. 5₺
+          En Fazla 10 malzeme seçebilirsiniz. 5₺ 
         </p>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {toppings.map((ingredient) => (

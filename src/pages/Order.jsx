@@ -210,6 +210,7 @@ const Order = ({ productData }) => {
           isValid={isValid}
           currentPrice={currentPrice}
           handleSubmit={handleSubmit}
+          type ={selectedProduct.type}
         ></OrderForm>
       </div>
     </main>
