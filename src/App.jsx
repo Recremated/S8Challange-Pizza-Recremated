@@ -7,6 +7,7 @@ import Success from "./pages/Success";
 import productData from "../src/constants/productData";
 import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./components/Footer";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function App() {
       {validPaths.includes(location.pathname) && (
         <Footer productData={productData} />
       )}
+      <ToastContainer />
     </>
   );
 }

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import OrderForm from "../components/OrderForm";
 import Header from "../components/Header";
+import { toast, Bounce } from "react-toastify";
 
 const Order = ({ productData }) => {
   const location = useLocation();
@@ -135,6 +136,7 @@ const Order = ({ productData }) => {
   /* Eger isValid true ise reqres.in post request yapiyor. Gonderirken ismi duzenleyip toplam fiyati tekrardan hesaplayarak gonderiyor.
      Istek basarili olursa gelen response.data'sini konsola yazdiriyor ve /Success'e gidiyor.Hata olmasi durumunda ise konsola hatayi yazdiriyor.
   */
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isValid) {
@@ -145,14 +147,40 @@ const Order = ({ productData }) => {
           name: cleanName(formData.name),
         })
         .then(function (response) {
-          console.log(response.data);
-          navigate("/Success", { state: { data: response.data } });
+          toast.success("Siparişiniz başarıyla oluşturuldu!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+
+          setTimeout(() => {
+            navigate("/Success", { state: { data: response.data } });
+          }, 3000);
         })
         .catch(function (error) {
           console.log(error);
+
+          toast.error("Sipariş oluşturulurken bir hata oluştu!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
         });
     }
   };
+
   // FormData ve errors'u dependency olarak aliyor ve onlar her degistiginde isValid state'i guncelleniyor.
   useEffect(() => {
     const isFormValid =
@@ -210,7 +238,7 @@ const Order = ({ productData }) => {
           isValid={isValid}
           currentPrice={currentPrice}
           handleSubmit={handleSubmit}
-          type ={selectedProduct.type}
+          type={selectedProduct.type}
         ></OrderForm>
       </div>
     </main>
