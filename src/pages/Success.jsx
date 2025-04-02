@@ -27,9 +27,11 @@ const Success = ({ productData }) => {
               Boyut:
               <span className="font-bold">{data.size}</span>
             </p>
-            <p>
-              Hamur:<span className="font-bold">{data.thickness}</span>
-            </p>
+            {selectedProduct?.type === "Pizza" && (
+              <p>
+                Hamur:<span className="font-bold">{data.thickness}</span>
+              </p>
+            )}
             <p>
               Ek Malzemeler:
               <span className="font-bold">{data.ingredients.join(", ")}</span>

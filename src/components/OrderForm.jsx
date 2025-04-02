@@ -11,7 +11,7 @@ const OrderForm = ({
   isValid,
   currentPrice,
   handleSubmit,
-  type
+  type,
 }) => {
   return (
     <form className="font-barlow" onSubmit={handleSubmit}>
@@ -51,29 +51,31 @@ const OrderForm = ({
           </div>
         </div>
 
-        <div className="flex flex-col w-1/2 gap-3">
-          <label
-            className="text-[22px] sm:text-[20px] font-semibold"
-            htmlFor="thickness"
-          >
-            Hamur Seç
-            {errors.thickness && <span className="text-[#CE2829]"> *</span>}
-          </label>
-          <select
-            id="thickness"
-            name="thickness"
-            value={formData.thickness}
-            onChange={handleChange}
-            className="text-[20px] sm:text-[16px] rounded border-7 border-[#faf7f2] text-[#5F5F5F] focus:outline-none focus:ring-2 focus:ring-[#FDC913] bg-[#faf7f2] py-3 cursor-pointer"
-          >
-            <option value="">--Hamur Kalınlığı Seç--</option>
-            {thickness.map((option) => (
-              <option value={option.value} key={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        {type === "Pizza" && (
+          <div className="flex flex-col w-1/2 gap-3">
+            <label
+              className="text-[22px] sm:text-[20px] font-semibold"
+              htmlFor="thickness"
+            >
+              Hamur Seç
+              {errors.thickness && <span className="text-[#CE2829]"> *</span>}
+            </label>
+            <select
+              id="thickness"
+              name="thickness"
+              value={formData.thickness}
+              onChange={handleChange}
+              className="text-[20px] sm:text-[16px] rounded border-7 border-[#faf7f2] text-[#5F5F5F] focus:outline-none focus:ring-2 focus:ring-[#FDC913] bg-[#faf7f2] py-3 cursor-pointer"
+            >
+              <option value="">--Hamur Kalınlığı Seç--</option>
+              {thickness.map((option) => (
+                <option value={option.value} key={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       <div className="mb-10">
@@ -81,7 +83,7 @@ const OrderForm = ({
           Ek Malzemeler
         </p>
         <p className="my-4 text-[20px] sm:text-[16px] text-[#5F5F5F]">
-          En Fazla 10 malzeme seçebilirsiniz. 5₺ 
+          En Fazla 10 malzeme seçebilirsiniz. 5₺
         </p>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {toppings.map((ingredient) => (

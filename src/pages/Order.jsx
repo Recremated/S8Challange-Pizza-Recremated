@@ -26,6 +26,18 @@ const Order = ({ productData }) => {
         basePrice: selectedProduct.price,
         id: selectedProduct.id,
       }));
+
+      if (selectedProduct.type !== "Pizza") {
+        setErrors((prevErrors) => {
+          const { thickness, ...rest } = prevErrors;
+          return rest;
+        });
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          thickness: "thickness alanı boş bırakılamaz.",
+        }));
+      }
     }
   }, [selectedProduct]);
 
@@ -106,7 +118,17 @@ const Order = ({ productData }) => {
         ? prevData.ingredients.filter((item) => item !== ingredient)
         : [...prevData.ingredients, ingredient];
       if (newIngredients.length > 10) {
-        alert("En fazla 10 malzeme seçebilirsiniz!");
+        toast.error("En fazla 10 malzeme seçebilirsiniz!", {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
         return prevData;
       }
       return { ...prevData, ingredients: newIngredients };
@@ -184,11 +206,7 @@ const Order = ({ productData }) => {
   // FormData ve errors'u dependency olarak aliyor ve onlar her degistiginde isValid state'i guncelleniyor.
   useEffect(() => {
     const isFormValid =
-      formData.name !== "" &&
-      formData.size !== "" &&
-      formData.thickness !== "" &&
-      formData.ingredients.length <= 10 &&
-      Object.keys(errors).length === 0;
+      formData.ingredients.length <= 10 && Object.keys(errors).length === 0;
     setIsValid(isFormValid);
   }, [formData, errors]);
 
